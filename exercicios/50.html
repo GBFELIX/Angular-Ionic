@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <h2>Elaborar um algoritmo em pseudocodigo que efetue a leitura do nome e do sexo de uma
+            pessoa, apresentando como saída uma das seguintes mensagens: “Ilmo Sr.”, para o sexo
+            informado como masculino, ou a mensagem “Ilma Sra.”, para o sexo informado como feminino.
+            Apresente na seqüência da mensagem impressa o nome da pessoa.</label><br>
+    <input type="text" id= "nome" placeholder="nome">
+    sexo : feminino<input type="radio" id= "f"> masculino  <input type="radio"  id= "m"/>
+    <button onclick="verificar()">OK</button>
+    
+    <div id="saida"></div>
+</body>
+
+    <script>
+        function verificar(){
+            var nome = document.querySelector("#nome").value;
+            var m = document.querySelector("#m").checked;
+            document.getElementById("m").checked = true;
+
+        if(m == true){
+            document.querySelector("#saida").innerHTML = "“Ilmo Sr." + " " + nome;
+        }else{
+            document.querySelector("#saida").innerHTML = "“Ilma Sra." + " " + nome;
+        }
+    }  
+        function saida(texto){
+            document.querySelector("#saida").innerHTML = texto;
+        } 
+
+    </script>
+</html>

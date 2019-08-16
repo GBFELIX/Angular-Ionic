@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <h2>Elaborar um algoritmo em pseudocodigo que efetue a leitura de um número inteiro e
+        apresentar uma mensagem informando se o número é par ou ímpar.</h2>
+    <label>Digite um número</label>
+    <input type="text" id= "valor">
+    <button onclick="parImpar()">OK</button>
+    
+    <div id="saida"></div>
+</body>
+
+    <script>
+    function parImpar(){
+    var num = document.querySelector("#valor").value;
+    if(num % 2 == 0){
+       document.querySelector("#saida").innerHTML = "<p> PAR <p>";
+    }else{
+        document.querySelector("#saida").innerHTML = "<p> IMPAR <p>";
+    }
+}   
+    </script>
+</html>
