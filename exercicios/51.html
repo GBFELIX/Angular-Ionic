@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    
+            <P><input type="text" id="numero" placeholder="numero"></P>
+            <p><button onclick="verificar()">OK</button></p>
+            <P>A:<input type="text" id="numero1"></P>
+            <P>B:<input type="text" id="numero2"></P>
+    
+    <div id="saida"></div>
+</body>
+
+    <script>
+        function verificar(){
+            var num = document.querySelector("#numero").value;
+            
+            if(num > 0){
+                document.getElementById("numero1").value = num;
+            }else{
+                document.getElementById("numero2").value = num;
+            }
+        }
+        function saida(texto){
+            document.querySelector("#saida").innerHTML = texto;
+        } 
+
+    </script>
+</html>

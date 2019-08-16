@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    
+            <P>1ª Bimestre<input type="text" id="numero1" placeholder="nota 1"></P>
+            <P>2ª Bimestre<input type="text" id="numero2" placeholder="nota 2"></P>
+            <P>3ª Bimestre<input type="text" id="numero3" placeholder="nota 3"></P>
+            <P>4ª Bimestre<input type="text" id="numero4" placeholder="nota 4"></P>
+            <P>Média final<input type="text" id="media" placeholder="media"></P>
+            <p><button onclick="verificar()">OK</button></p>
+    
+    <div id="saida"></div>
+</body>
+
+    <script>
+        function verificar(){
+            var num1 = document.getElementById("numero1").value;
+            var num2 = document.getElementById("numero2").value;
+            var num3 = document.getElementById("numero3").value;
+            var num4 = document.getElementById("numero4").value;
+
+            var num5 = num1 + num2 + num3 + num4;
+            var num6 = num5 / 4;
+            document.getElementById("media").value = num6;    
+        }
+        function saida(texto){
+            document.querySelector("#saida").innerHTML = texto;
+        } 
+
+    </script>
+</html>
