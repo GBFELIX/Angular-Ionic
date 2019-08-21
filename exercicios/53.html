@@ -10,30 +10,27 @@
 </head>
 <body>
     
-            <P>1ª Bimestre<input type="text" id="numero1" placeholder="nota 1"></P>
-            <P>2ª Bimestre<input type="text" id="numero2" placeholder="nota 2"></P>
-            <P>3ª Bimestre<input type="text" id="numero3" placeholder="nota 3"></P>
-            <P>4ª Bimestre<input type="text" id="numero4" placeholder="nota 4"></P>
-            <P>Média final<input type="text" id="media" placeholder="media"></P>
-            <p><button onclick="verificar()">OK</button></p>
+            <P>1ª Bimestre: <input type="number" id="numero1" placeholder="nota 1"></P>
+            <P>2ª Bimestre: <input type="number" id="numero2" placeholder="nota 2"></P>
+            <P>3ª Bimestre: <input type="number" id="numero3" placeholder="nota 3"></P>
+            <P>4ª Bimestre: <input type="number" id="numero4" placeholder="nota 4"></P>
+            <P>Média final: <input type="number" id="media" placeholder="media"></P>
+            <p><button onclick="somar()">OK</button></p>
     
-    <div id="saida"></div>
+ 
 </body>
 
     <script>
-        function verificar(){
-            var num1 = document.getElementById("numero1").value;
-            var num2 = document.getElementById("numero2").value;
-            var num3 = document.getElementById("numero3").value;
-            var num4 = document.getElementById("numero4").value;
+        function somar(){
+            let num1 = document.getElementById("numero1").value;
+            let num2 = document.getElementById("numero2").value;
+            let num3 = document.getElementById("numero3").value;
+            let num4 = document.getElementById("numero4").value;
 
-            var num5 = num1 + num2 + num3 + num4;
-            var num6 = num5 / 4;
-            document.getElementById("media").value = num6;    
+            let num5 = parseFloat(num1) + parseFloat(num2) + parseFloat(num3) + parseFloat(num4);
+            let num6 = num5 / 4;
+            document.getElementById("media").value = parseFloat(num6);
         }
-        function saida(texto){
-            document.querySelector("#saida").innerHTML = texto;
-        } 
 
     </script>
 </html>

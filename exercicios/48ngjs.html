@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+<body ng-app="ex48" ng-controller="ctrl48">
+    <h2>Elaborar um algoritmo em pseudocodigo que efetue a leitura de um número inteiro e
+        apresentar uma mensagem informando se o número é par ou ímpar.</h2>
+    <label>Digite um número</label>
+    <input type="text"  ng-model="valor">
+    
+    <div>{{ saida(valor) }}</div> {{ valor }}
+</body>
+
+    <script>
+    var app = angular.module('ex48', []);
+    app.controller("ctrl48", function($scope){
+        $scope.saida = function(num){
+            if( num % 2 == 0){
+                return "par"
+            }   
+                return "impar"
+        }
+    })
+    
+    </script>
+</html>

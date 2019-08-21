@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    
+            <P>1ª professor: <input type="number" id="numero1" placeholder="horas trabalhadas"> Ganhou R$<input type="number" id="trabalhou_1"></P>
+            <P>2ª professor: <input type="number" id="numero2" placeholder="horas trabalhadas"> Ganhou R$<input type="number" id="trabalhou_2"></P>
+            
+            <p><button onclick="somar()">OK</button></p>
+
+            Trabalhou mais: <input type="text" id="trabalhou_mais"><p>
+            Trabalhou menos: <input type="text" id="trabalhou_menos">
+            
+    
+</body>
+
+    <script>
+        function somar(){
+            let num1 = document.getElementById("numero1").value;
+            let num2 = document.getElementById("numero2").value;
+            let num3 = num1 * "17";
+            let num4 = num2 * "17";
+            if(num3 > num4){
+                document.getElementById("trabalhou_1").value = num3;
+                document.getElementById("trabalhou_mais").value = 'primeiro professor';
+                document.getElementById("trabalhou_2").value = num4;
+                document.getElementById("trabalhou_menos").value = 'segundo professor';
+            }else{
+                document.getElementById("trabalhou_2").value = num4;
+                document.getElementById("trabalhou_mais").value = 'primeiro professor';
+                document.getElementById("trabalhou_1").value = num3;
+                document.getElementById("trabalhou_menos").value = 'segundo professor';
+            }
+
+       } 
+
+    </script>
+</html>
