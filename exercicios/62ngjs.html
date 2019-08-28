@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+</head>
+<body ng-app="ex62" ng-controller="ctrl62">
+            <input type="number" ng-model="num1" placeholder="1ª numéro"><p>
+            <input type="number" ng-model="num2" placeholder="2ª numéro"><p>
+
+            <label ng-if="num1" ng-if"num2">Soma = {{num1 + num2}}</label><p></p>
+            <label ng-if="num1" ng-if"num2">Subtração = {{num1 - num2}}</label><p></p>
+            <label ng-if="num1" ng-if"num2">Multiplicação = {{num1 * num2}}</label><p></p>
+            <label ng-if="num1" ng-if"num2">Divisão = {{num1 / num2}}</label><p></p>
+                    
+
+</body>
+</html>
+    <script>
+        var app = angular.module('ex62', []);
+    app.controller("ctrl62", function($scope){
+        $scope.saida = function(num){}})
+        
+
+           // <input type="number" id="soma" placeholder="soma"><p>
+           // <input type="number" id="sub" placeholder="subtração"><p>
+           // <input type="number" id="mult" placeholder="multiplicação"><p>
+           // <input type="number" id="divi" placeholder="divisão">    
+//        function somar(){
+//         let numero1 = document.getElementById("num1").value;
+//            let numero2 = document.getElementById("num2").value;
+//            let num3 = parseInt(numero1) + parseInt(numero2);
+//            let num4 = numero1 - numero2;
+//            let num5 = numero1 * numero2;
+//            let num6 = numero1 / numero2;
+
+//            document.getElementById("soma").value = num3;
+//            document.getElementById("sub").value = num4;
+//            document.getElementById("mult").value = num5;
+//            document.getElementById("divi").value = num6;
+//      } 
+//        function saida(texto){
+//          document.querySelector("#saida").innerHTML = texto;
+//       } 
+
+
+
+    </script>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+</head>
+<body ng-app="ex66" ng-controller="ctrl66">
+         Niveis de poluição são de 0 até 0,9:  <input type="number" ng-model="num1" placeholder="Nivel de poluição"><p>                
+        <label>{{saida()}}</label>
+</body>
+</html>
+    <script>
+         var app = angular.module('ex66', []);
+    app.controller("ctrl66", function($scope){
+        $scope.saida = function(){
+            n1 = $scope.num1;
+            if(n1 < parseFloat(0.3)){
+               return "O nivel de polução é aceitavel"
+           }
+            if(n1 == parseFloat(0.3)){
+               return "O 1º grupo deve suspender as suas atividades"
+           }
+            if(n1 == parseFloat(0.4)){
+                return "O 1º e 2º grupo deve suspender as suas atividades"
+            }
+            if(n1 >= parseFloat(0.5)){
+                return "Todos os grupos devem suspender as suas atividades"
+            }    
+       }
+   })
+
+    </script>

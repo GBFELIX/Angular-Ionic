@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-sanitize.js"></script>
+</head>
+
+<body ng-app="ex76" ng-controller="ctrl76">
+    <input type="number" ng-model="n1" placeholder="1º numero"><p></p>
+    <input type="number" ng-model="n2" placeholder="2º numero"><p></p>
+    <input type="number" ng-model="n3" placeholder="3º numero"><p></p>
+    <input type="number" ng-model="n4" placeholder="4º numero"><p></p>
+    <input type="number" ng-model="n5" placeholder="5º numero"><p></p>
+    <input type="number" ng-model="n6" placeholder="6º numero"><p></p>
+    <input type="number" ng-model="n7" placeholder="7º numero"><p></p>
+    <input type="number" ng-model="n8" placeholder="8º numero"><p></p>
+    <input type="number" ng-model="n9" placeholder="9º numero"><p></p>
+    <input type="number" ng-model="n10" placeholder="10º numero"><p></p>
+
+     <div ng-model="result" ng-if="n10">{{saida()}}</div><p></p>
+
+<script>
+    
+     var app = angular.module('ex76', []);
+    app.controller("ctrl76", function($scope){
+        $scope.saida = function(){
+            l1 = $scope.n1;
+            l2 = $scope.n2;
+            l3 = $scope.n3;
+            l4 = $scope.n4;
+            l5 = $scope.n5;
+            l6 = $scope.n6;
+            l7 = $scope.n7;
+            l8 = $scope.n8;
+            l9 = $scope.n9;
+            l10 = $scope.n10;
+            let a = [l1,l2,l3,l4,l5,l6,l7,l8,l9,l10];
+            let maior = Math.max.apply(null, a);
+            let menor = Math.min.apply(null, a);
+            let m = (l1+l2+l3+l4+l5+l6+l7+l8+l9+l10)/10; 
+            return "Maior valor: " + maior + "  Menor valor: " + menor + "  Media tota de: " + m;
+             
+            }
+        })
+
+</script>
+        
+</body>
+</html>

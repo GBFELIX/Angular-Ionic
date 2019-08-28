@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exercícios</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-sanitize.js"></script>
+</head>
+
+<body ng-app="ex50" ng-controller="ctrl50" class="container">
+    <h2>50) Elaborar um algoritmo em pseudocodigo que efetue a leitura do nome e do sexo de uma pessoa, apresentando como saída uma das seguintes mensagens: “Ilmo Sr.”, para o sexo informado como masculino, ou a mensagem “Ilma Sra.”, para o sexo informado como feminino. Apresente na seqüência da mensagem impressa o nome da pessoa.
+    </h2>
+
+    <div class="form-group">
+        <label>Nome</label>
+        <input type="text" class="form-control" ng-model="nome">
+    </div>
+
+    <div class="form-group">
+        <label>Sexo</label>
+        <div class="form-check form-check-inline">
+            <input type="radio" name="sexo" class="form-check-input" ng-model="sexo" value="M" ng-checked="true">
+            <label class="form-check-label"> Masculino </label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="radio" name="sexo" class="form-check-input" ng-model="sexo" value="F"> 
+            <label class="form-check-label"> Feminino</label>
+        </div>
+    </div>
+
+    <div ng-bind-html="saida(nome, sexo)" ng-if="nome"></div>
+</body>
+
+</html>
+<script>
+    var app = angular.module("ex50", ['ngSanitize']);
+    app.controller("ctrl50", function ($scope, $sce) {       
+        $scope.saida = function (nome, sexo) {
+            if (sexo == "M") {
+                console.log(sexo);
+               return "<p>Ilmo Sr. " + nome + "</p>"
+            }
+            return "<p>Ilma Sra. " + nome + "</p>"
+        }
+    })
+    // function tratamento() {
+    //     let nome = document.querySelector("#nome").value;
+    //     let sexo = document.querySelectorAll(".sexo");
+    //     //let sexo = document.getElementsByName("sexo");
+    //     console.log(sexo)
+    //     if (sexo[0].checked) {
+    //         saida("<p>Ilmo Sr. " + nome + "</p>", "#saida");
+    //     } else {
+    //         saida("<p>Ilma Sra. " + nome + "</p>", "#saida");
+    //     }
+    // }
+    // function saida(texto, local) {
+    //     document.querySelector(local).innerHTML = texto;
+    // }
+</script> 
