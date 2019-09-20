@@ -5,31 +5,32 @@
 </ion-header>
 
 <ion-content>
-
-  <ion-item>
-    <ion-label position="floating">Nome</ion-label>
-    <ion-input type="text"></ion-input>
-  </ion-item>
-  <ion-item>
+  <form #fc="ngForm" (ngSubmit)="onsubmit(fc)">
+    <ion-item>
+      <ion-label position="floating">Nome</ion-label>
+      <ion-input type="text" [(ngModel)]=player.nome name="nome" required></ion-input>
+    </ion-item>
+    <ion-item>
       <ion-label position="floating">Nickname</ion-label>
-      <ion-input type="text"></ion-input>
-  </ion-item>
-  <ion-item>
+      <ion-input type="text" [(ngModel)]=player.nickname name="nickname" required></ion-input>
+    </ion-item>
+    <ion-item>
       <ion-label position="floating">E-mail</ion-label>
-      <ion-input type="email"></ion-input>
-  </ion-item>
-  <ion-item>
+      <ion-input type="email" [(ngModel)]=player.email name="email" required></ion-input>
+    </ion-item>
+    <ion-item>
       <ion-label position="floating">Senha</ion-label>
-      <ion-input type="password"></ion-input>
- </ion-item>
- <ion-item>
-    <ion-label position="floating">Confirmar senha</ion-label>
-    <ion-input type="password"></ion-input>
-  </ion-item>
-  <ion-item lines="none">
-    <ion-button size="medium" slot="end" color="primary">Confirmar</ion-button>
-    <ion-button size="medium" slot="end" color="danger">Cancelar</ion-button>
-  </ion-item>
-  
-
+      <ion-input type="password" [(ngModel)]=player.pws name="pws" minlength="6" #pws="ngModel" required #pws="ngModel"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="pws.invalid && pws.dirty">Senha muito curta</ion-text>
+    <ion-item>
+      <ion-label position="floating">Confirmar senha</ion-label>
+      <ion-input type="password" (ngModel)=conf name="conf" required #conf="ngModel"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="(pws.value != conf.value) && pws.dirty">Senha diferentes</ion-text>
+    <ion-item lines="none">
+      <ion-button size="medium" slot="end" color="primary" type="sumbit" [disabled]="fc.invalid">Confirmar</ion-button>
+      <ion-button size="medium" slot="end" color="danger" type="reset">Cancelar</ion-button>
+    </ion-item>
+  </form>
 </ion-content>
