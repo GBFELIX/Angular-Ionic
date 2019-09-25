@@ -10,10 +10,10 @@ import { map } from 'rxjs/operators';
 export class PlayerService {
 
   constructor(
-    protected fire:AngularFirestore
+    protected fire: AngularFirestore
   ) { }
 
-  save(player){
+  save(player) {
     return this.fire.collection("players").add({
       nome: player.nome,
       nickname: player.nickname,
@@ -23,12 +23,15 @@ export class PlayerService {
     });
   }
 
- getALL(){
-   return this.fire.collection("players").snapshotChanges()
-   .pipe(
-     map(dados => 
-       dados.map(d=> ({key:d.payload.doc.id, ...d.payload.doc.data() }))
-     )
-   )
- } 
+  getALL() {
+    return this.fire.collection("players").snapshotChanges()
+      .pipe(
+        map(dados =>
+          dados.map(d => ({ key: d.payload.doc.id, ...d.payload.doc.data() }))
+        )
+      )
+  }
+  get(id) {
+    return this.fire.collection("players").doc<Player>(id).valueChanges();
+  }
 }

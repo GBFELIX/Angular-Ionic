@@ -23,7 +23,17 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('../pages//list-player/list-player.module').then(m => m.ListPlayerPageModule)
+              import('../pages/list-player/list-player.module').then(m => m.ListPlayerPageModule)
+          }
+        ]
+      },
+      {
+        path: 'perfilPlayer/:id',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../pages/perfil-player/perfil-player.module').then(m => m.PerfilPlayerPageModule)
           }
         ]
       },

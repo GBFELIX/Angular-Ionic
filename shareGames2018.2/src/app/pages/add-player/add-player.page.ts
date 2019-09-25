@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Player } from '../../model/player';
 import { PlayerService } from '../../services/player.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-player',
@@ -14,7 +15,9 @@ export class AddPlayerPage implements OnInit {
 
   constructor(
     public alertController: AlertController,
-    protected playerService:PlayerService
+    protected playerService:PlayerService,
+    public loadingController: LoadingController,
+    protected router:Router
   ) { }
 
   ngOnInit() {
@@ -23,8 +26,11 @@ export class AddPlayerPage implements OnInit {
   onsubmit(form){
     this.playerService.save(this.player).then(
       res=>{
-        console.log("Cadastrado");
-        this.presentAlert("Deu bom confia","tu foi Cadastrado!")
+        //console.log("Cadastrado");
+        this.presentLoading();
+        this.presentAlert("Deu bom confia","tu foi Cadastrado!");
+        form.reset();
+        this.router.navigate(['/tabs/listPlayer']);
       },
       erro=>{
         console.log("Erro: " + erro);
@@ -40,5 +46,16 @@ async presentAlert(tipo:string, texto:string) {
     });
 
     await alert.present();
+  }
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'tamo te cadastrando pera ae',
+      duration: 2000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+
+    console.log('Loading dismissed!');
   }
 }
