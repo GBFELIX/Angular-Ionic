@@ -10,16 +10,16 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PerfilPlayerPage implements OnInit {
 
-  protected player:Player;
+  protected player:Player = new Player;
   private id: string = null;
 
   constructor(
     protected playerService: PlayerService,
-    protected activateddRouter:ActivatedRoute
+    protected activatedRouter:ActivatedRoute
   ) { }
 
   ngOnInit() {
-     this.id = this.activateddRouter.snapshot.paramMap.get("id");
+     this.id = this.activatedRouter.snapshot.paramMap.get("id");
      if(this.id){
        this.playerService.get(this.id).subscribe(
          res=>{

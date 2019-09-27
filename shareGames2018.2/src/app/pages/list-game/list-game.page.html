@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Games
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button color="danger" routerLink="/tabs/addGame">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+<ion-content>
+  <ion-list *ngIf="games">
+    <ion-item *ngFor="let u of games" routerLink="/tabs/perfilGame/{{u.key}}">
+      <ion-avatar slot="start">
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+      </ion-avatar>
+      <ion-label>Nome: {{u.nome}}</ion-label>
+      <ion-label>Valor: {{u.valor}}</ion-label>
+  
+    </ion-item>
+  </ion-list>
+
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+</ion-content>
