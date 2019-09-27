@@ -78,6 +78,16 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'list-listgames',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../pages/list-listgames/list-listgames.module').then(m => m.ListGamesPageModule)
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
