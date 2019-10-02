@@ -3,6 +3,7 @@ import { Player } from '../../model/player';
 import { PlayerService } from '../../services/player.service';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'app-add-player',
@@ -13,12 +14,15 @@ export class AddPlayerPage implements OnInit {
 
   protected player:Player = new Player;
   protected id:any = null;
+  protected preview:any = null;
+
   constructor(
     public alertController: AlertController,
     protected playerService:PlayerService,
     public loadingController: LoadingController,
     protected router:Router,
-    protected activatedRoute:ActivatedRoute
+    protected activatedRoute:ActivatedRoute,
+    private camera: Camera
   ) { }
 
   ngOnInit() {
@@ -34,7 +38,11 @@ export class AddPlayerPage implements OnInit {
   }
 
   onsubmit(form){
+    if(!this.preview){
+      this.presentAlert("Erro","Deve cadastrar alguma foto no perfil");
+    }else
     if(!this.id){
+      this.player.foto = this.preview;
       this.playerService.save(this.player).then(
         res=>{
           //console.log("Cadastrado");
@@ -62,6 +70,23 @@ export class AddPlayerPage implements OnInit {
         }
       )
     }
+  }
+  tirarFoto(){
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    
+    this.camera.getPicture(options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // If it's base64 (DATA_URL):
+     let base64Image = 'data:image/jpeg;base64,' + imageData;
+     this.preview = base64Image;
+    }, (err) => {
+     // Handle error
+    });
   }
 async presentAlert(tipo:string, texto:string) {
     const alert = await this.alertController.create({

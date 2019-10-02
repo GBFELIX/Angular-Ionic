@@ -5,4 +5,5 @@ export class Player {
     email:string;
     pws:string;
     ativo:boolean = true;
+    foto:string = null;
 }

@@ -19,6 +19,7 @@ export class PlayerService {
       nickname: player.nickname,
       email: player.email,
       pws: player.pws,
+      foto:player.foto,
       ativo: true
     });
   }
