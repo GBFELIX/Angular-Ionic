@@ -4,6 +4,7 @@ import { PlayerService } from '../../services/player.service';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-add-player',
@@ -12,24 +13,25 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 })
 export class AddPlayerPage implements OnInit {
 
-  protected player:Player = new Player;
-  protected id:any = null;
-  protected preview:any = null;
+  protected player: Player = new Player;
+  protected id: any = null;
+  protected preview: any = null;
 
   constructor(
     public alertController: AlertController,
-    protected playerService:PlayerService,
+    protected playerService: PlayerService,
     public loadingController: LoadingController,
-    protected router:Router,
-    protected activatedRoute:ActivatedRoute,
-    private camera: Camera
+    protected router: Router,
+    protected activatedRoute: ActivatedRoute,
+    private camera: Camera,
+    private geolocation: Geolocation
   ) { }
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get("id");
-    if(this.id){
+    if (this.id) {
       this.playerService.get(this.id).subscribe(
-        res=>{
+        res => {
           this.player = res
         },
         erro => this.id = null
@@ -37,58 +39,68 @@ export class AddPlayerPage implements OnInit {
     }
   }
 
-  onsubmit(form){
-    if(!this.preview){
-      this.presentAlert("Erro","Deve cadastrar alguma foto no perfil");
-    }else
-    if(!this.id){
+  onsubmit(form) {
+    if (!this.preview) {
+      this.presentAlert("Erro", "Deve cadastrar alguma foto no perfil");
+    } else {
       this.player.foto = this.preview;
-      this.playerService.save(this.player).then(
-        res=>{
-          //console.log("Cadastrado");
-          this.presentLoading();
-          this.presentAlert("Deu bom confia","tu foi Cadastrado!");
-          form.reset();
-          this.router.navigate(['/tabs/listPlayer']);
-        },
-        erro=>{
-          console.log("Erro: " + erro);
-          this.presentAlert("DEU ERRO, fuja para as colinas","NAO Cadastrado! ou seja deu ruim")
-        }
-      )
-    }else{
-      this.playerService.update(this.player, this.id).then(
-        res=>{
-          this.presentLoading();
-          this.presentAlert("Deu bom confia","tu foi Atualizado!");
-          form.reset();
-          this.router.navigate(['/tabs/listPlayer']);
-        },
-        erro=>{
-          console.log("Erro: " + erro);
-          this.presentAlert("DEU ERRO, fuja para as colinas","NAO atualizado! ou seja deu ruim")
-        }
-      )
+      this.geolocation.getCurrentPosition().then((resp) => {
+         this.player.lat = resp.coords.latitude;
+         this.player.lng = resp.coords.longitude;
+         console.log(resp)
+       }).catch((error) => {
+         this.player.lat = 0;
+         this.player.lng = 0;
+         console.log('Error getting location', error);
+       });
+      if (!this.id) {
+        this.playerService.save(this.player).then(
+          res => {
+            //console.log("Cadastrado");
+            this.presentLoading();
+            this.presentAlert("Deu bom confia", "tu foi Cadastrado!");
+            form.reset();
+            this.router.navigate(['/tabs/listPlayer']);
+          },
+          erro => {
+            console.log("Erro: " + erro);
+            this.presentAlert("DEU ERRO, fuja para as colinas", "NAO Cadastrado! ou seja deu ruim")
+          }
+        )
+      } else {
+        this.playerService.update(this.player, this.id).then(
+          res => {
+            this.presentLoading();
+            this.presentAlert("Deu bom confia", "tu foi Atualizado!");
+            form.reset();
+            this.router.navigate(['/tabs/listPlayer']);
+          },
+          erro => {
+            console.log("Erro: " + erro);
+            this.presentAlert("DEU ERRO, fuja para as colinas", "NAO atualizado! ou seja deu ruim")
+          }
+        )
+      }
     }
   }
-  tirarFoto(){
+  tirarFoto() {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE
     }
-    
+
     this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     let base64Image = 'data:image/jpeg;base64,' + imageData;
-     this.preview = base64Image;
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.preview = base64Image;
     }, (err) => {
-     // Handle error
+      // Handle error
     });
   }
-async presentAlert(tipo:string, texto:string) {
+  async presentAlert(tipo: string, texto: string) {
     const alert = await this.alertController.create({
       header: tipo,
       message: texto,
@@ -109,3 +121,5 @@ async presentAlert(tipo:string, texto:string) {
     console.log('Loading dismissed!');
   }
 }
+  
+

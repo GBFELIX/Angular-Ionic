@@ -6,4 +6,6 @@ export class Player {
     pws:string;
     ativo:boolean = true;
     foto:string = null;
+    lat: number;
+    lng: number;
 }
