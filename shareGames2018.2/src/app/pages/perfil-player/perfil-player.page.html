@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>perfil-player</ion-title>
+    <ion-title>Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-item lines="none">
@@ -8,9 +8,21 @@
 </ion-item>
 <ion-content>
 <ion-item>
-  <ion-label>{{player.nome}}</ion-label><p></p>
-  <ion-label>{{player.nickname}}</ion-label><p></p>
-  <ion-label>{{player.email}}</ion-label><p></p>
-  <ion-label>{{player.pws}}</ion-label><p></p>
+  <ion-label>nome: {{player.nome}}</ion-label><p></p>
+</ion-item>
+  <ion-item>
+  <ion-label>nick: {{player.nickname}}</ion-label><p></p>
+  </ion-item>
+  <ion-item>
+  <ion-label> email: {{player.email}}</ion-label><p></p>
+  </ion-item>
+  <ion-item>
+  <ion-label>senha: {{player.pws}}</ion-label><p></p>
+  </ion-item>
+  <ion-item>
+  <ion-label>lat: {{player.lat}}</ion-label><p></p>
+  </ion-item>
+  <ion-item>
+  <ion-label>long: {{player.lng}}</ion-label><p></p>
 </ion-item>
 </ion-content>
