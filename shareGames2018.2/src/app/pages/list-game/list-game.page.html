@@ -16,6 +16,7 @@
       <ion-label>Nome: {{u.nome}}</ion-label>
       <ion-label>Valor: {{u.valor}}</ion-label>
       -->
+      <ion-slides>
       <ion-card>
         <ion-card-header>
           <ion-card-title>{{u.nome}}</ion-card-title>
@@ -31,6 +32,7 @@
           </ion-item>
         </ion-card-content>
       </ion-card>
+    </ion-slides>
 
       <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">

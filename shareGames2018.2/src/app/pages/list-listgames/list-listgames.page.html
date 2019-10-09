@@ -15,14 +15,30 @@
     </ion-fab>
   
     <ion-list *ngIf="games">
-      <ion-item *ngFor="let u of games" routerLink="/tabs/perfilGame/{{u.key}}">
+
+        <ion-item-sliding *ngFor="let u of games">
+            <ion-item-options side="start">
+              <ion-item-option (click)="editar(u)" expandable>
+                Editar
+              </ion-item-option>
+            </ion-item-options> 
+
+
+      <ion-item  routerLink="/tabs/perfilGame/{{u.key}}">
         <ion-avatar slot="start">
           <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
         </ion-avatar>
         <ion-label>nome: {{ u.nome }}</ion-label>
         <ion-text>valor: {{ u.valor }}</ion-text>
       </ion-item>
-    </ion-list>
+ 
+
+    <ion-item-options side="end">
+        <ion-item-option (click)="apagar(u)" color="danger" expandable>
+          Deletar
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
   
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
       <ion-refresher-content

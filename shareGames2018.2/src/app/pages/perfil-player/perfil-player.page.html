@@ -4,25 +4,43 @@
   </ion-toolbar>
 </ion-header>
 <ion-item lines="none">
-   <img src="{{player.foto}}">
+  <img src="{{player.foto}}">
 </ion-item>
 <ion-content>
-<ion-item>
-  <ion-label>nome: {{player.nome}}</ion-label><p></p>
-</ion-item>
+  <ion-slides>
+    <ion-slide>
+      <img src="data:image/png;base64,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">
+    </ion-slide>
+
+    <ion-slide>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAwXqWa8WSuMO8b474zn7u73Bsw5lAlZgRxQCdcr9WAJq6saXQPw&s">
+    </ion-slide>
+    <ion-slide>
+      <img src="data:image/png;base64,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">
+    </ion-slide>
+  </ion-slides>
   <ion-item>
-  <ion-label>nick: {{player.nickname}}</ion-label><p></p>
+    <ion-label>nome: {{player.nome}}</ion-label>
+    <p></p>
   </ion-item>
   <ion-item>
-  <ion-label> email: {{player.email}}</ion-label><p></p>
+    <ion-label>nick: {{player.nickname}}</ion-label>
+    <p></p>
   </ion-item>
   <ion-item>
-  <ion-label>senha: {{player.pws}}</ion-label><p></p>
+    <ion-label> email: {{player.email}}</ion-label>
+    <p></p>
   </ion-item>
   <ion-item>
-  <ion-label>lat: {{player.lat}}</ion-label><p></p>
+    <ion-label>senha: {{player.pws}}</ion-label>
+    <p></p>
   </ion-item>
   <ion-item>
-  <ion-label>long: {{player.lng}}</ion-label><p></p>
-</ion-item>
+    <ion-label>lat: {{player.lat}}</ion-label>
+    <p></p>
+  </ion-item>
+  <ion-item>
+    <ion-label>long: {{player.lng}}</ion-label>
+    <p></p>
+  </ion-item>
 </ion-content>

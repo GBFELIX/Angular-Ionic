@@ -21,6 +21,7 @@ export class GameService {
       descricao: game.descricao,
       quant: game.quant,
       valor: game.valor,
+      fotos: game.fotos,
       ativo: true
     });
   }
@@ -35,5 +36,11 @@ export class GameService {
   }
   get(id) {
     return this.fire.collection("games").doc<Game>(id).valueChanges();
+  }
+  update(game, id){
+    return this.fire.collection("games").doc<Game>(id).update(game);
+  }
+  remove(game:any){
+    return this.fire.collection("games").doc(game.key).delete();
   }
 }
