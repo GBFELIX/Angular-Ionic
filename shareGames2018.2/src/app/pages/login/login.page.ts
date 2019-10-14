@@ -3,8 +3,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
-
-
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Device } from '@ionic-native/device/ngx';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +20,8 @@ export class LoginPage implements OnInit {
     protected alertController: AlertController,
     public loadingController: LoadingController,
     protected router: Router,
+    private googlePlus: GooglePlus,
+    private device: Device,
   ) { }
 
   ngOnInit() {
@@ -50,6 +52,8 @@ export class LoginPage implements OnInit {
     this.afAuth.auth.signOut();
   }
   loginGoogle() {
+    console.log('Device platform is: ' + this.device.platform);
+    if(this.device.platform == "browser"){
     this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then(
       res => {
         console.log(res);
@@ -59,7 +63,14 @@ export class LoginPage implements OnInit {
         console.log("ERRO: ", erro )
         this.presentAlert("Erro", "E-mail ou senha invalidos!");
       }
-    )
+    )}else{
+      this.loginGooglePlus();
+    }
+  }
+  loginGooglePlus(){
+    this.googlePlus.login({})
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
   }
   async presentAlert(tipo: string, texto: string) {
     const alert = await this.alertController.create({
