@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Player } from '../../model/player';
 import { PlayerService } from '../../services/player.service';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import {GoogleMaps,GoogleMap,GoogleMapsEvent,Marker,MarkerCluster} from '@ionic-native/google-maps';
 
 @Component({
   selector: 'app-add-player',
@@ -16,6 +17,7 @@ export class AddPlayerPage implements OnInit {
   protected player: Player = new Player;
   protected id: any = null;
   protected preview: any = null;
+  protected map : GoogleMaps;
 
   constructor(
     public alertController: AlertController,
@@ -24,10 +26,16 @@ export class AddPlayerPage implements OnInit {
     protected router: Router,
     protected activatedRoute: ActivatedRoute,
     private camera: Camera,
-    private geolocation: Geolocation
+    private geolocation: Geolocation,
+    private platform: Platform,
+    
+
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.platform.ready();
+    await this.loadMap();
+
     this.id = this.activatedRoute.snapshot.paramMap.get("id");
     if (this.id) {
       this.playerService.get(this.id).subscribe(
@@ -120,6 +128,19 @@ export class AddPlayerPage implements OnInit {
 
     console.log('Loading dismissed!');
   }
+  loadMap() {
+    this.map = GoogleMaps.create('map_canvas', {
+      'camera': {
+        'target': {
+          "lat": this.player.lat,
+          "lng": this.player.lng,
+        },
+        'zoom': 10
+      }
+    });
+    this.addCluster(this.dummyData());
+  }
+
 }
   
 
