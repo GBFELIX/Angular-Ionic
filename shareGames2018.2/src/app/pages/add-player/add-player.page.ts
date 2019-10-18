@@ -5,7 +5,7 @@ import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import {GoogleMaps,GoogleMap,GoogleMapsEvent,Marker,MarkerCluster} from '@ionic-native/google-maps';
+import { GoogleMaps, GoogleMap, GoogleMapsEvent, Marker, MarkerCluster, MyLocation, LocationService } from '@ionic-native/google-maps';
 
 @Component({
   selector: 'app-add-player',
@@ -17,7 +17,7 @@ export class AddPlayerPage implements OnInit {
   protected player: Player = new Player;
   protected id: any = null;
   protected preview: any = null;
-  protected map : GoogleMaps;
+  protected map: GoogleMap;
 
   constructor(
     public alertController: AlertController,
@@ -28,11 +28,12 @@ export class AddPlayerPage implements OnInit {
     private camera: Camera,
     private geolocation: Geolocation,
     private platform: Platform,
-    
+
 
   ) { }
 
   async ngOnInit() {
+    //this.localAtual();
     await this.platform.ready();
     await this.loadMap();
 
@@ -53,14 +54,14 @@ export class AddPlayerPage implements OnInit {
     } else {
       this.player.foto = this.preview;
       this.geolocation.getCurrentPosition().then((resp) => {
-         this.player.lat = resp.coords.latitude;
-         this.player.lng = resp.coords.longitude;
-         console.log(resp)
-       }).catch((error) => {
-         this.player.lat = 0;
-         this.player.lng = 0;
-         console.log('Error getting location', error);
-       });
+        this.player.lat = resp.coords.latitude;
+        this.player.lng = resp.coords.longitude;
+        console.log(resp)
+      }).catch((error) => {
+        this.player.lat = 0;
+        this.player.lng = 0;
+        console.log('Error getting location', error);
+      });
       if (!this.id) {
         this.playerService.save(this.player).then(
           res => {
@@ -135,12 +136,53 @@ export class AddPlayerPage implements OnInit {
           "lat": this.player.lat,
           "lng": this.player.lng,
         },
-        'zoom': 10
+        'zoom': 18
       }
     });
-    this.addCluster(this.dummyData());
+    //this.addCluster(this.dummyData());
+    this.minhaLocalizacao();
   }
 
+  minhaLocalizacao() {
+    LocationService.getMyLocation().then(
+      (myLocation: MyLocation) => {
+        this.map.setOptions({
+          camera: {
+            target: myLocation.latLng
+          }
+        })
+        //marcadores
+        let marker: Marker = this.map.addMarkerSync({
+          position: {
+            lat: myLocation.latLng.lat,
+            lng: myLocation.latLng.lng
+          },
+          icon: "#00ff00",
+          title: this.player.nome,
+          snippet: this.player.nickname,
+        })
+        //adicionar eventos ao mapa
+        this.map.on(GoogleMapsEvent.MARKER_CLICK).subscribe(
+          res => {
+            marker.setTitle(this.player.nome)
+            marker.setSnippet(this.player.nickname)
+            marker.showInfoWindow()
+          }
+        )
+        //colocar pontos extras
+        this.map.on(GoogleMapsEvent.MAP_CLICK).subscribe(
+          res => {
+            this.map.addMarker({
+              position: {
+                lat: res.position.lat,
+                lng: res.position.lng
+              }
+            })
+          }
+        )
+      }
+    );
+  }
 }
-  
+
 
