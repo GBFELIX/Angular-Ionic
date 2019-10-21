@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Game } from '../../model/game';
 import { GameService } from '../../services/game.service';
 import { ActivatedRoute } from '@angular/router';
-
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { GoogleMaps, GoogleMap, GoogleMapsEvent, Marker, MarkerCluster, MyLocation, LocationService, LatLng, Circle } from '@ionic-native/google-maps';
+import { Platform } from '@ionic/angular';
 @Component({
   selector: 'app-perfil-game',
   templateUrl: './perfil-game.page.html',
@@ -11,23 +13,103 @@ import { ActivatedRoute } from '@angular/router';
 export class PerfilGamePage implements OnInit {
   protected game: Game = new Game;
   private id: string = null;
+  protected map: GoogleMap;
 
   constructor(
     protected gameService: GameService,
-    protected activatedRouter: ActivatedRoute
+    protected activatedRouter: ActivatedRoute,
+    private platform: Platform,
+    private geolocation: Geolocation,
   ) { }
 
-  ngOnInit() {
-    this.id = this.activatedRouter.snapshot.paramMap.get("id");
-    if (this.id) {
-      this.gameService.get(this.id).subscribe(
-        res => {
-          this.game = res
-        }
-      )
-    }
+  async ngOnInit() {
+    await this.platform.ready();
+    await this.loadMap();
+
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.game.lat = resp.coords.latitude;
+      this.game.lng = resp.coords.longitude;
+      this.id = this.activatedRouter.snapshot.paramMap.get("id");
+      if (this.id) {
+        this.gameService.get(this.id).subscribe(
+          res => {
+            this.game = res
+          }
+        )
+      }
+    })
+  }
+  loadMap() {
+    this.map = GoogleMaps.create('map_canvas', {
+      'camera': {
+        'target': {
+          "lat": this.game.lat,
+          "lng": this.game.lng,
+        },
+        'zoom': 18
+      }
+    });
+    //this.addCluster(this.dummyData());
+    this.minhaLocalizacao();
+  }
+  minhaLocalizacao() {
+    LocationService.getMyLocation().then(
+      (myLocation: MyLocation) => {
+        this.map.setOptions({
+          camera: {
+            target: myLocation.latLng
+          }
+        })
+        //marcadores
+        let marker: Marker = this.map.addMarkerSync({
+          position: {
+            lat: myLocation.latLng.lat,
+            lng: myLocation.latLng.lng
+          },
+          icon: "#00ff00",
+          title: this.game.nome,
+        })
+
+        let GOOGLE = { "lat": myLocation.latLng.lat, "lng": myLocation.latLng.lng };
+
+        // Add circle
+        let circle: Circle = this.map.addCircleSync({
+          'center': GOOGLE,
+          'radius': 300,
+          'strokeColor': '#AA00FF',
+          'strokeWidth': 5,
+          'fillColor': '#880000'
+        });
+
+        this.map.moveCamera({
+          target: circle.getBounds()
+        })
+
+//adicionar eventos ao mapa
+this.map.on(GoogleMapsEvent.MARKER_CLICK).subscribe(
+  res => {
+    marker.setTitle(this.game.nome)
+    marker.showInfoWindow()
+  }
+)
+//colocar pontos extras
+this.map.on(GoogleMapsEvent.MAP_CLICK).subscribe(
+  res => {
+    console.log(res)
+    // this.map.addMarker({
+    //   position: {
+    //     lat: res[0].lat,
+    //     lng: res[0].lng
+    //   }
+    // })
+    marker.setPosition(res[0])
+  }
+)
+      }
+    );
   }
 }
+
 const slidesOpts = {
   slidesPerView: 3,
   coverflowEffect: {
@@ -65,24 +147,24 @@ const slidesOpts = {
         const slideOffset = $slideEl[0].swiperSlideOffset;
         const offsetMultiplier = ((center - slideOffset - (slideSize / 2)) / slideSize) * params.modifier;
 
-         let rotateY = isHorizontal ? rotate * offsetMultiplier : 0;
+        let rotateY = isHorizontal ? rotate * offsetMultiplier : 0;
         let rotateX = isHorizontal ? 0 : rotate * offsetMultiplier;
         // var rotateZ = 0
         let translateZ = -translate * Math.abs(offsetMultiplier);
 
-         let translateY = isHorizontal ? 0 : params.stretch * (offsetMultiplier);
+        let translateY = isHorizontal ? 0 : params.stretch * (offsetMultiplier);
         let translateX = isHorizontal ? params.stretch * (offsetMultiplier) : 0;
 
-         // Fix for ultra small values
+        // Fix for ultra small values
         if (Math.abs(translateX) < 0.001) translateX = 0;
         if (Math.abs(translateY) < 0.001) translateY = 0;
         if (Math.abs(translateZ) < 0.001) translateZ = 0;
         if (Math.abs(rotateY) < 0.001) rotateY = 0;
         if (Math.abs(rotateX) < 0.001) rotateX = 0;
 
-         const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
-         $slideEl.transform(slideTransform);
+        $slideEl.transform(slideTransform);
         $slideEl[0].style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
         if (params.slideShadows) {
           // Set shadows
@@ -101,7 +183,7 @@ const slidesOpts = {
         }
       }
 
-       // Set correct perspective for IE10
+      // Set correct perspective for IE10
       if (swiper.support.pointerEvents || swiper.support.prefixedPointerEvents) {
         const ws = $wrapperEl[0].style;
         ws.perspectiveOrigin = `${center}px 50%`;
@@ -114,6 +196,8 @@ const slidesOpts = {
         .find('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left')
         .transition(duration);
     }
+
   }
 }
+
 

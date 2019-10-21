@@ -5,7 +5,7 @@ import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { GoogleMaps, GoogleMap, GoogleMapsEvent, Marker, MarkerCluster, MyLocation, LocationService } from '@ionic-native/google-maps';
+import { GoogleMaps, GoogleMap, GoogleMapsEvent, Marker, MarkerCluster, MyLocation, LocationService, LatLng } from '@ionic-native/google-maps';
 
 @Component({
   selector: 'app-add-player',
@@ -28,7 +28,6 @@ export class AddPlayerPage implements OnInit {
     private camera: Camera,
     private geolocation: Geolocation,
     private platform: Platform,
-
 
   ) { }
 
@@ -142,7 +141,6 @@ export class AddPlayerPage implements OnInit {
     //this.addCluster(this.dummyData());
     this.minhaLocalizacao();
   }
-
   minhaLocalizacao() {
     LocationService.getMyLocation().then(
       (myLocation: MyLocation) => {
@@ -172,12 +170,14 @@ export class AddPlayerPage implements OnInit {
         //colocar pontos extras
         this.map.on(GoogleMapsEvent.MAP_CLICK).subscribe(
           res => {
-            this.map.addMarker({
-              position: {
-                lat: res.position.lat,
-                lng: res.position.lng
-              }
-            })
+            console.log(res)
+            // this.map.addMarker({
+            //   position: {
+            //     lat: res[0].lat,
+            //     lng: res[0].lng
+            //   }
+            // })
+            marker.setPosition(res[0])
           }
         )
       }
